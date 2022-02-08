@@ -23,12 +23,20 @@ private:
 	class UCameraComponent* FollowCamera;
 
 	class UHealthComponent* HealthComponent;
+
+	
+
+
 public:
 	AMyProjectCharacter();
 
 	/** Base turn rate, in deg/sec. Other scaling may affect final turn rate. */
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
 	float BaseTurnRate;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Montage)
+	UAnimMontage* montage;
+
 
 	/** Base look up/down rate, in deg/sec. Other scaling may affect final rate. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
@@ -37,6 +45,11 @@ public:
 	virtual void OnDeath_Implementation() override;
 	virtual void OnTakeDamage_Implementation() override;
 
+	bool bIsRunning=false;
+
+
+	UPROPERTY(EditDefaultsOnly, Category = Health)
+	float MaxRunSpeed = 600.f;
 
 protected:
 
@@ -48,6 +61,12 @@ protected:
 
 	/** Called for side to side input */
 	void MoveRight(float Value);
+
+
+	void Run();
+	void StopRun();
+
+	void Throw();
 
 	/** 
 	 * Called via input to turn at a given rate. 

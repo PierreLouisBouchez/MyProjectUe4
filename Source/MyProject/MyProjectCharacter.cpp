@@ -34,6 +34,7 @@ AMyProjectCharacter::AMyProjectCharacter()
 	GetCharacterMovement()->JumpZVelocity = 600.f;
 	GetCharacterMovement()->AirControl = 0.2f;
 
+
 	// Create a camera boom (pulls in towards the player if there is a collision)
 	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
 	CameraBoom->SetupAttachment(RootComponent);
@@ -65,6 +66,12 @@ void AMyProjectCharacter::SetupPlayerInputComponent(class UInputComponent* Playe
 	check(PlayerInputComponent);
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
+	PlayerInputComponent->BindAction("Throw", IE_Pressed, this, &AMyProjectCharacter::Throw);
+
+
+
+	PlayerInputComponent->BindAction("Run", IE_Pressed, this, &AMyProjectCharacter::Run);
+	PlayerInputComponent->BindAction("Run", IE_Released, this, &AMyProjectCharacter::StopRun);
 
 	PlayerInputComponent->BindAxis("MoveForward", this, &AMyProjectCharacter::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &AMyProjectCharacter::MoveRight);
@@ -165,5 +172,25 @@ void AMyProjectCharacter::MoveRight(float Value)
 		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
 		// add movement in that direction
 		AddMovementInput(Direction, Value);
+	}
+}
+
+void AMyProjectCharacter::Run()
+{
+	if (bIsRunning) return;
+	bIsRunning = true;
+	GetCharacterMovement()->MaxWalkSpeed = MaxRunSpeed;
+}
+
+void AMyProjectCharacter::StopRun()
+{
+	if (!bIsRunning) return;
+	bIsRunning=false;
+	GetCharacterMovement()->MaxWalkSpeed = 150.f;
+}
+
+void AMyProjectCharacter::Throw() {
+	if (montage) {
+		PlayAnimMontage(montage);	
 	}
 }
