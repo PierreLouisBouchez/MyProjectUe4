@@ -35,7 +35,7 @@ bool ULookAtComponent::LookAtActor()
 		FRotator LookAtRotation = UKismetMathLibrary::FindLookAtRotation(Start, End);
 		LookAtRotation.Pitch = 0;
 		LookAtRotation.Roll = 0;
-		GetOwner()->SetActorRotation(LookAtRotation);
+		//GetOwner()->SetActorRotation(LookAtRotation);
 		return true;
 	}
 	return false;

@@ -38,23 +38,22 @@ void AEnemy::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	ACharacter* PlayerCharacter = UGameplayStatics::GetPlayerCharacter(this, 0);
-	bCanSeePlayer = LookAtComponent->LookAtActor();
+	/*bCanSeePlayer = LookAtComponent->LookAtActor();
 
 	if (bCanSeePlayer != bPreviousCanSeePlayer) {
 
 		if (bCanSeePlayer) {
 			//start timer
-			GetWorldTimerManager().SetTimer(ThrowTimerHandle,this,&AEnemy::ThrowPatate,ThrowingInterval,true,ThrowingDelay);
+			GetWorldTimerManager().SetTimer(ThrowTimerHandle,this,&AEnemy::ThrowPatateAnim,ThrowingInterval,true,ThrowingDelay);
 
 		}
 		else {
 			//stop timer		
-			//GEngine->AddOnScreenDebugMessage(-1, 15.f, FColor::White, TEXT("Patate"));
 			GetWorldTimerManager().ClearTimer(ThrowTimerHandle);
 		}
 	}		
 	bPreviousCanSeePlayer = bCanSeePlayer;
-
+	*/
 
 }
 
@@ -63,18 +62,14 @@ void AEnemy::ThrowPatate() {
 		return;
 	}
 	FVector ForwardVector = GetActorForwardVector();
-	float SpawnDistance = 40.f;
-	FVector SpawnLocation = GetActorLocation() + (ForwardVector * SpawnDistance);
+	FVector SpawnLocation = GetMesh()->GetSocketLocation(FName("RightHandSocket")) + (ForwardVector );
 	FTransform SpawnTransform(GetActorRotation(),SpawnLocation);
 
 	APatate* Patate = GetWorld()->SpawnActorDeferred<APatate>(PatateClass,SpawnTransform);
-	Patate->GetProjectileMovementComponent()->InitialSpeed = 2200.f;
+	Patate->GetProjectileMovementComponent()->InitialSpeed = 1200.f;
 	Patate->FinishSpawning(SpawnTransform);
 
-
-
-
-	//GEngine->AddOnScreenDebugMessage(-1, 15.f, FColor::White, TEXT("Patate!!"));
+	
 }
 
 // Called to bind functionality to input
@@ -84,6 +79,14 @@ void AEnemy::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 }
 
+void AEnemy::ThrowPatateAnim(){
+	if (montage) {
+		bool bIsPlaying = GetMesh()->GetAnimInstance()->Montage_IsPlaying(montage);
+		if (!bIsPlaying) {
+			GetMesh()->GetAnimInstance()->Montage_Play(montage, 1.5f);
+		}
+	}
+}
 
 
 

@@ -31,11 +31,15 @@ protected:
 	float ThrowingInterval = 2.f;
 	float ThrowingDelay = 1.f;
 
-	void ThrowPatate();
+	void ThrowPatateAnim();
 
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+	void ThrowPatate();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Montage)
+	UAnimMontage* montage;
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;

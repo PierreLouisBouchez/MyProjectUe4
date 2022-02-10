@@ -21,7 +21,7 @@ bool UEscapeFunctionLibrary::CanSeeActor(const UWorld* World, FVector Location, 
 	ECollisionChannel Channel = ECollisionChannel::ECC_GameTraceChannel1;
 	World->LineTraceSingleByChannel(Hit, Start, End, Channel,QueryParam);
 
-	if (!Hit.bBlockingHit) DrawDebugLine(World, Start, End, FColor::Red);
+	//if (!Hit.bBlockingHit) DrawDebugLine(World, Start, End, FColor::Red);
 
 	return !Hit.bBlockingHit;
 }
