@@ -19,11 +19,11 @@ public:
 
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<class UHUDWidget> BP_HUDWidget;
+	void UpdateHUDWidget(float HealthPercent);
 
 	void ShowRestartWidget();
 	void HideRestartWidget();
 
-	void UpdateHUDWidget(float HealthPercent);
 
 protected:
 	virtual void BeginPlay()override;
